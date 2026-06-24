@@ -7,7 +7,7 @@ on:
 jobs:
   implement:
     if: github.event.label.name == 'agent:implement'
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     timeout-minutes: 60
     concurrency:
       group: agent-implement-issue-${{ github.event.issue.number }}
@@ -140,9 +140,12 @@ jobs:
         if: steps.shape.outputs.proceed == 'true' && steps.preflight.outputs.refused != 'true'
         run: npm run build
 
-      - name: Install Claude Code
+      # The agent (Claude Code) now runs inside the Docker sandbox, not on the
+      # host, so we build the sandbox image instead of installing Claude on the
+      # runner. Image name is pinned to match implement.ts's SANDBOX_IMAGE.
+      - name: Build sandbox image
         if: steps.shape.outputs.proceed == 'true' && steps.preflight.outputs.refused != 'true'
-        run: npm install -g @anthropic-ai/claude-code
+        run: node dist/main.js docker build-image --image-name sandcastle-agent:local
 
       - name: Run implementation agent
         if: steps.shape.outputs.proceed == 'true' && steps.preflight.outputs.refused != 'true'

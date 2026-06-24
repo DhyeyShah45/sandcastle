@@ -7,7 +7,7 @@ on:
 jobs:
   explore:
     if: github.event.label.name == 'agent:explore'
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     timeout-minutes: 60
     concurrency:
       group: agent-explore-issue-${{ github.event.issue.number }}
@@ -45,8 +45,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Install Claude Code
-        run: npm install -g @anthropic-ai/claude-code
+      - name: Build sandbox image
+        run: node dist/main.js docker build-image --image-name sandcastle-agent:local
 
       - name: Run explore agent
         env:

@@ -4,6 +4,12 @@ import { execFileSync, execSync } from "node:child_process";
 import type { StandardSchemaV1 } from "@standard-schema/spec";
 import * as sandcastle from "@ai-hero/sandcastle";
 
+// Pinned sandbox image name for the self-hosted AFK agent workflows
+// (implement, explore). Must match the `docker build-image --image-name` step
+// in those GitHub workflows so docker() finds the image regardless of the
+// runner's checkout directory name.
+export const SANDBOX_IMAGE = "sandcastle-agent:local";
+
 export const outputDir = (): string => process.env.OUTPUT_DIR ?? "/tmp";
 
 export const required = (name: string): string => {
