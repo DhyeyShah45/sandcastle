@@ -19,3 +19,7 @@ Default canonical labels. Agent provider support is detailed here. See `docs/age
 ### Domain docs
 
 Single-context layout: `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+
+### Self-hosted runner (fork-specific)
+
+Running AFK agents on a self-hosted runner + local Docker sandbox, the personal-vs-team account rule, and why the runner must never be registered on this public repo. See `docs/agents/self-hosted-runner.md`.
